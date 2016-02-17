@@ -136,7 +136,7 @@ if (!$results) {
               <table class="table table-hover table-condensed">
                 <thead>
                 <tr>
-                  <th>Rate</th><th>Title</th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
+                  <th>Rate</th><th>Title</th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -159,7 +159,11 @@ if (!$resultsInd) {
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
       $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
-      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable . '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] . '</td><td>' . $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") . '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable . 
+      '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] . 
+      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' . 
+      $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") . 
+      '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
     }
 }
 
