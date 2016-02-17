@@ -95,17 +95,23 @@ if ($resJudge->num_rows > 0) {
   <p>
     There are two stages to the evaluation process.
     <ol>
-      <li>The first stage is reading the entries and giving them a rating from 1 to 5 stars. You are also 
-      able to write a comment about the entry and save it with the rating. You need to provide a rating for all entries 
-      in the contest area you have been assigned. <u>Only rated entries will move forward to the ranking stage</u> so you will 
-      want to give ratings to all the entries in a particular contest before moving to the ranking stage. <br>The rating 
-      stage can be accessed by selecting <a id="ratingsample" class="btn btn-primary btn-xs disabled fa fa-star"> Rating</a> below.</li>
-      <li>The second stage of the judging process is ranking the entries that you rated in the previous step. You will
-      see a list of all the entries for a given contest sorted by the top rated down to the lowest rated entry. You will
-      give, what you consider to be the top 10 entries, a ranking with the best ranked as 1. You are able to leave a comment 
-      in the ranking section.<br> The ranking stage can be accessed by selecting the 
-      <a id="rankingsample" class="btn btn-success btn-xs disabled fa fa-sort-numeric-asc"> Ranking</a> button at the top of the entry
-      rating list for each contest.</li>
+      <li>The first stage is reading the entries and giving them a rating from 1 to 5 stars. You are also
+      able to write a comment about the entry and save it with the rating. <span style="color:red">This is
+      a comment for your use only, to help you distinguish between manuscripts -- the contestant will not
+      see it.</span> You need to provide a rating for all entries in the contest area you have been
+      assigned. <u>Only rated entries will move forward to the ranking stage</u> so you will want to give
+      ratings to all the entries in a particular contest before moving to the ranking stage. <br>The rating
+      stage can be accessed by selecting
+      <a id="ratingsample" class="btn btn-primary btn-xs disabled fa fa-star"> Rating</a> below.
+      Once you press submit your rating is final.</li>
+      <li>The second stage of the judging process is ranking the entries that you rated in the previous step.
+      You will see a list of all the entries for a given contest sorted by your top rated down to the lowest
+      rated entry. You will give a ranking with the best ranked as 1. You will need to leave a comment of
+      several paragraphs for each manuscript in the ranking section. The contestants will see these comments
+      in their entirety. You will not be able to tie contestants in a particular area.<br> The ranking stage
+      can be accessed by selecting the  <a id="rankingsample" class="btn btn-success btn-xs disabled fa fa-sort-numeric-asc">
+      Ranking</a> button at the top of the entry rating list for each contest. Once you press submit your
+      ranking is final.</li>
     </ol>
     
       <div class="btn-group" role="group" aria-label="button group">
