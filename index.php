@@ -87,7 +87,6 @@ if ($resJudge->num_rows > 0) {
         </nav>
 
     <?php if ($isJudge) {
-      non_db_error("User " . $login_name . " not Authorized. isJudge=" . $isJudge);
         ?>
 <div class="container"><!-- container of all things -->
 <div class="jumbotron">
@@ -149,6 +148,7 @@ if ($resJudge->num_rows > 0) {
 
 <?php
 } else {
+  non_db_error("User " . $login_name . " not Authorized. isJudge=" . $isJudge);
 ?>
 
   <!-- if there is not a record for $login_name display the basic information form. Upon submitting this data display the contest available section -->
