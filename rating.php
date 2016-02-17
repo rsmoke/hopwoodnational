@@ -150,7 +150,7 @@ $sqlIndEntry = <<<SQL
       SELECT DISTINCT name
       FROM `lk_category`
       JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-      WHERE uniqname = '$login_name') AND vw_entrydetail.status = 0 AND tbl_ranking.rank > 0 AND tbl_ranking.rankedby = 'babcockj'
+      WHERE uniqname = '$login_name') AND vw_entrydetail.status = 0 AND tbl_ranking.rank > 0 
       ORDER BY vw_entrydetail.EntryId
 SQL;
 $resultsInd = $db->query($sqlIndEntry);
