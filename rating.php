@@ -123,15 +123,15 @@ if (!$results) {
         </div>
         <div id="collapse<?php echo $count ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $count ?>">
           <div class="panel-body">
-             <div class="well well-sm">Eligibility:
+<!--              <div class="well well-sm">Eligibility:
                 <?php
-                echo($instance['freshmanEligible'])? "Fr " : "";
-                echo($instance['sophmoreEligible'])? "So " : "";
-                echo($instance['juniorEligible'])? "Jr " : "";
-                echo($instance['seniorEligible'])? "Sr " : "";
-                echo($instance['graduateEligible'])? "Grd " : "";
+                // echo($instance['freshmanEligible'])? "Fr " : "";
+                // echo($instance['sophmoreEligible'])? "So " : "";
+                // echo($instance['juniorEligible'])? "Jr " : "";
+                // echo($instance['seniorEligible'])? "Sr " : "";
+                // echo($instance['graduateEligible'])? "Grd " : "";
                 ?>
-             </div>
+             </div> -->
              <div class="table-responsive">
               <table class="table table-hover table-condensed">
                 <thead>
