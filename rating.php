@@ -96,7 +96,9 @@ SELECT
         `lk_contests`.`juniorEligible`,
         `lk_contests`.`seniorEligible`,
         `lk_contests`.`graduateEligible`,
-        `tbl_nationalcontestjudge`.`uniqname`
+        `tbl_nationalcontestjudge`.`uniqname`,
+        `tbl_nationalcontestjudge`.`categoryID`,
+        `tbl_nationalcontestjudge`.`contestsID`
     FROM tbl_contest
     JOIN `lk_contests` ON ((`tbl_contest`.`contestsID` = `lk_contests`.`id`))
     JOIN `tbl_nationalcontestjudge` ON (`tbl_contest`.`contestsID` = `tbl_nationalcontestjudge`.`contestsID`)
@@ -111,6 +113,126 @@ if (!$results) {
     $count = $i = 0;
     while ($instance = $results->fetch_assoc()) {
         $count = $i++;
+
+      if ($instance['contestsID'] == 2 && ($instance['categoryID'] == 3 || $instance['categoryID'] == 5 || $instance['categoryID'] == 7)){
+        /* create two panels one Ugrad and one Grad */
+        $countG = 100;
+        $countU = 200;
+?>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading<?php echo $countG ?>">
+          <h6 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $countG ?>" aria-expanded="false" aria-controls="collapse<?php echo $countG ?>">
+                <?php echo $instance['name'] . " <br /><small>closed: </small><span style='color:#0080FF'>" . date_format(date_create($instance['date_closed']),"F jS Y \a\\t g:ia") . "</span>" ?>
+            </a>
+          </h6>
+          <?php echo '<div class="ranking pull-right"> <button class="fa fa-sort-numeric-asc btn btn-success btn-contestid" data-contestid="' . $instance['ContestId'] . '"> Ranking</button></div>' ?>
+        </div>
+        <div id="collapse<?php echo $countG ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $countG ?>">
+          <div class="panel-body">
+              <div class="well well-sm"><h4>Graduate Entries</h4></div>
+             <div class="table-responsive">
+              <table class="table table-hover table-condensed">
+                <thead>
+                <tr>
+                  <th>Rate</th><th>Title</th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
+                  </tr>
+                </thead>
+                <tbody>
+<?php
+$sqlIndEntry = <<<SQL
+   SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+      FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+   LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
+    WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+      SELECT DISTINCT name
+      FROM `lk_category`
+      JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
+      WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel >= 20
+      ORDER BY vwcl.EntryId
+SQL;
+$resultsInd = $db->query($sqlIndEntry);
+if (!$resultsInd) {
+    echo "<tr><td>There are no applicants available</td></tr>";
+} else {
+    while ($entry = $resultsInd->fetch_assoc()) {
+      $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
+      '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
+      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
+      '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
+    }
+}
+
+?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading<?php echo $countU ?>">
+          <h6 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $countU ?>" aria-expanded="false" aria-controls="collapse<?php echo $countU ?>">
+                <?php echo $instance['name'] . " <br /><small>closed: </small><span style='color:#0080FF'>" . date_format(date_create($instance['date_closed']),"F jS Y \a\\t g:ia") . "</span>" ?>
+            </a>
+          </h6>
+          <?php echo '<div class="ranking pull-right"> <button class="fa fa-sort-numeric-asc btn btn-success btn-contestid" data-contestid="' . $instance['ContestId'] . '"> Ranking</button></div>' ?>
+        </div>
+        <div id="collapse<?php echo $countU ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $countU ?>">
+          <div class="panel-body">
+            <div class="well well-sm"><h4>Undergraduate Entries</h4></div>
+             <div class="table-responsive">
+              <table class="table table-hover table-condensed">
+                <thead>
+                <tr>
+                  <th>Rate</th><th>Title</th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
+                  </tr>
+                </thead>
+                <tbody>
+<?php
+$sqlIndEntry = <<<SQL
+   SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+      FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+   LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
+    WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+      SELECT DISTINCT name
+      FROM `lk_category`
+      JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
+      WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel < 20
+      ORDER BY vwcl.EntryId
+SQL;
+$resultsInd = $db->query($sqlIndEntry);
+if (!$resultsInd) {
+    echo "<tr><td>There are no applicants available</td></tr>";
+} else {
+    while ($entry = $resultsInd->fetch_assoc()) {
+      $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
+      '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
+      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
+      '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
+    }
+}
+
+?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<?php
+
+
+
+      } else {
+
 ?>
       <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="heading<?php echo $count ?>">
@@ -149,7 +271,7 @@ $sqlIndEntry = <<<SQL
       SELECT DISTINCT name
       FROM `lk_category`
       JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-      WHERE uniqname = 'rhsmoke@gmail.com') AND vwcl.status = 0 AND fwdToNational = 1
+      WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1
       ORDER BY vwcl.EntryId
 SQL;
 $resultsInd = $db->query($sqlIndEntry);
@@ -174,6 +296,7 @@ if (!$resultsInd) {
         </div>
       </div>
 <?php
+      }
     }
 }
 ?>
