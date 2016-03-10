@@ -123,7 +123,7 @@ if (!$results) {
         </div>
         <div id="collapse<?php echo $count ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $count ?>">
           <div class="panel-body">
-             <div class="well well-sm">Eligibility: 
+             <div class="well well-sm">Eligibility:
                 <?php
                 echo($instance['freshmanEligible'])? "Fr " : "";
                 echo($instance['sophmoreEligible'])? "So " : "";
@@ -142,16 +142,15 @@ if (!$results) {
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   SELECT *
-   FROM vw_entrydetail
-   LEFT OUTER JOIN tbl_evaluations ON (vw_entrydetail.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-   LEFT OUTER JOIN tbl_ranking ON (vw_entrydetail.`EntryId`= `tbl_ranking`.`entryid`)
+   SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+      FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+   LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
     WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
       SELECT DISTINCT name
       FROM `lk_category`
       JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-      WHERE uniqname = '$login_name') AND vw_entrydetail.status = 0 AND tbl_ranking.rank > 0 
-      ORDER BY vw_entrydetail.EntryId
+      WHERE uniqname = 'rhsmoke@gmail.com') AND vwcl.status = 0 AND fwdToNational = 1
+      ORDER BY vwcl.EntryId
 SQL;
 $resultsInd = $db->query($sqlIndEntry);
 if (!$resultsInd) {
@@ -159,10 +158,10 @@ if (!$resultsInd) {
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
       $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
-      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable . 
-      '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] . 
-      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' . 
-      $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") . 
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
+      '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
+      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
       '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
     }
 }
