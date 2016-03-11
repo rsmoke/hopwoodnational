@@ -135,16 +135,45 @@ if (!$results) {
               <table class="table table-hover table-condensed">
                 <thead>
                 <tr>
-                  <th>Rate</th><th>Title</th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
+                  <th>Rate</th><th>Title</th><th>Ranking you gave</th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
                   </tr>
                 </thead>
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+   -- SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+   --    FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+   -- LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
+   --  WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+   --    SELECT DISTINCT name
+   --    FROM `lk_category`
+   --    JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
+   --    WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel >= 20
+   --    ORDER BY vwcl.EntryId
+      --       SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+      -- FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+      -- JOIN(
+      --  SELECT MAX(id) max_id, `entry_id`
+      --  FROM `tbl_evaluations`
+      --  GROUP BY `entry_id`
+      -- ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
+      -- JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
+      -- WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+      -- SELECT DISTINCT name
+      -- FROM `lk_category`
+      -- JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
+      -- WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel >= 20
+      -- ORDER BY vwcl.EntryId
+      SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,CASE WHEN tbl_evaluations.`evaluator`= '$login_name' THEN 1 ELSE 0 END AS evaluator,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
       FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-   LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-    WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+      JOIN(
+       SELECT MAX(id) max_id, `entry_id`
+       FROM `tbl_evaluations`
+
+       GROUP BY `entry_id`
+      ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
+      JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
+      WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
       SELECT DISTINCT name
       FROM `lk_category`
       JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
@@ -156,10 +185,10 @@ if (!$resultsInd) {
     echo "<tr><td>There are no applicants available</td></tr>";
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
-      $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
+      $disable = ""; //($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
       echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
       '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
-      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      '</td><td><img src="img/' . $entry['rating'] . 'star.png"></td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
       $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
       '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
     }
@@ -195,10 +224,24 @@ if (!$resultsInd) {
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+   -- SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+   --    FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+   -- LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
+   --  WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+   --    SELECT DISTINCT name
+   --    FROM `lk_category`
+   --    JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
+   --    WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel < 20
+   --    ORDER BY vwcl.EntryId
+            SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
       FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-   LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-    WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+      JOIN(
+       SELECT MAX(id) max_id, `entry_id`
+       FROM `tbl_evaluations`
+       GROUP BY `entry_id`
+      ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
+      JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
+      WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
       SELECT DISTINCT name
       FROM `lk_category`
       JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
@@ -210,7 +253,7 @@ if (!$resultsInd) {
     echo "<tr><td>There are no applicants available</td></tr>";
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
-      $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
+      $disable = ""; //($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
       echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
       '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
       '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
@@ -264,10 +307,24 @@ if (!$resultsInd) {
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+   -- SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+   --    FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
+   -- LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
+   --  WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+   --    SELECT DISTINCT name
+   --    FROM `lk_category`
+   --    JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
+   --    WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1
+   --    ORDER BY vwcl.EntryId
+            SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
       FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-   LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-    WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
+      JOIN(
+       SELECT MAX(id) max_id, `entry_id`
+       FROM `tbl_evaluations`
+       GROUP BY `entry_id`
+      ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
+      JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
+      WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
       SELECT DISTINCT name
       FROM `lk_category`
       JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
@@ -279,7 +336,7 @@ if (!$resultsInd) {
     echo "<tr><td>There are no applicants available</td></tr>";
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
-      $disable = ($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
+      $disable = ""; //($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
       echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
       '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
       '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
