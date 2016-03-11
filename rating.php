@@ -11,7 +11,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <head>
   <meta charset="utf-8">
 
-  <title>LSA-<?php echo "$contestTitle";?> Writing Contests</title>
+  <title>LSA-English Writing Contests</title>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,10 +73,8 @@ if (session_status() == PHP_SESSION_NONE) {
 <div id="contest">
   <div class="row clearfix">
     <div class="bg-warning infosection">
-    <p><strong>Rating instructions: </strong> Select an entry that you want to rate and click the star button next to it to go to the rating form for that entry. Once an entry has been
-    rated it will be (greyed out).</p>
-    <p>After you have rated all the entries for a contest you will then select the green ranking button for that contest
-    at the top right of that contests panel.</p><a class="btn btn-xs btn-warning fa fa-info-circle" href="http://lsa.umich.edu/hopwood/contests-prizes.html" target="_blank"> Contest Rules</a>
+    <h3>Evaluating instructions: </h3> <p>Select an entry that you want to evaluate and click the star button <button class="btn btn-sm btn-info btn-eval fa fa-star" disabled="disabled"></button> next to it to go to the evaluating form for that entry.</p>
+    <p>Five stars is the highest value you can give to the best entry and there should only be one entry that receives all 5 stars.</p><a class="btn btn-xs btn-warning fa fa-info-circle" href="http://lsa.umich.edu/hopwood/contests-prizes.html" target="_blank"> Contest Rules</a>
     </div>
   </div>
   <div class="row clearfix">
@@ -126,7 +124,6 @@ if (!$results) {
                 <?php echo $instance['name'] . " <br /><small>closed: </small><span style='color:#0080FF'>" . date_format(date_create($instance['date_closed']),"F jS Y \a\\t g:ia") . "</span>" ?>
             </a>
           </h6>
-          <?php echo '<div class="ranking pull-right"> <button class="fa fa-sort-numeric-asc btn btn-success btn-contestid" data-contestid="' . $instance['ContestId'] . '"> Ranking</button></div>' ?>
         </div>
         <div id="collapse<?php echo $countG ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $countG ?>">
           <div class="panel-body">
@@ -135,35 +132,12 @@ if (!$results) {
               <table class="table table-hover table-condensed">
                 <thead>
                 <tr>
-                  <th>Rate</th><th>Title</th><th>Ranking you gave</th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
+                  <th>Evaluate</th><th>Title</th><th>Stars<br><em><small>5 is the best</small></em></th><th>Manuscript<br><em>opens in new window</em></th><th>Authors<br>Pen-name</small></th><th>Manuscript Type</th><th>Date Entered</th><th><small>AppID</small></th>
                   </tr>
                 </thead>
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   -- SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
-   --    FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-   -- LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-   --  WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
-   --    SELECT DISTINCT name
-   --    FROM `lk_category`
-   --    JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-   --    WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel >= 20
-   --    ORDER BY vwcl.EntryId
-      --       SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
-      -- FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-      -- JOIN(
-      --  SELECT MAX(id) max_id, `entry_id`
-      --  FROM `tbl_evaluations`
-      --  GROUP BY `entry_id`
-      -- ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
-      -- JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
-      -- WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
-      -- SELECT DISTINCT name
-      -- FROM `lk_category`
-      -- JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-      -- WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel >= 20
-      -- ORDER BY vwcl.EntryId
       SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,CASE WHEN tbl_evaluations.`evaluator`= '$login_name' THEN 1 ELSE 0 END AS evaluator,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
       FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
       JOIN(
@@ -185,10 +159,10 @@ if (!$resultsInd) {
     echo "<tr><td>There are no applicants available</td></tr>";
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
-      $disable = ""; //($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
-      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
+      $rating = ($entry['evaluator'] == 0 )? 0 : $entry['rating'];
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' .
       '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
-      '</td><td><img src="img/' . $entry['rating'] . 'star.png"></td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      '</td><td><img src="img/' . $rating . 'star.png"></td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
       $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
       '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
     }
@@ -209,7 +183,6 @@ if (!$resultsInd) {
                 <?php echo $instance['name'] . " <br /><small>closed: </small><span style='color:#0080FF'>" . date_format(date_create($instance['date_closed']),"F jS Y \a\\t g:ia") . "</span>" ?>
             </a>
           </h6>
-          <?php echo '<div class="ranking pull-right"> <button class="fa fa-sort-numeric-asc btn btn-success btn-contestid" data-contestid="' . $instance['ContestId'] . '"> Ranking</button></div>' ?>
         </div>
         <div id="collapse<?php echo $countU ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $countU ?>">
           <div class="panel-body">
@@ -224,20 +197,12 @@ if (!$resultsInd) {
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   -- SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
-   --    FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-   -- LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-   --  WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
-   --    SELECT DISTINCT name
-   --    FROM `lk_category`
-   --    JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-   --    WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1 AND classLevel < 20
-   --    ORDER BY vwcl.EntryId
-            SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+      SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,CASE WHEN tbl_evaluations.`evaluator`= '$login_name' THEN 1 ELSE 0 END AS evaluator,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
       FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
       JOIN(
        SELECT MAX(id) max_id, `entry_id`
        FROM `tbl_evaluations`
+
        GROUP BY `entry_id`
       ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
       JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
@@ -253,10 +218,10 @@ if (!$resultsInd) {
     echo "<tr><td>There are no applicants available</td></tr>";
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
-      $disable = ""; //($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
-      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
+      $rating = ($entry['evaluator'] == 0 )? 0 : $entry['rating'];
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' .
       '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
-      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      '</td><td><img src="img/' . $rating . 'star.png"></td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
       $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
       '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
     }
@@ -284,19 +249,9 @@ if (!$resultsInd) {
                 <?php echo $instance['name'] . " <br /><small>closed: </small><span style='color:#0080FF'>" . date_format(date_create($instance['date_closed']),"F jS Y \a\\t g:ia") . "</span>" ?>
             </a>
           </h6>
-          <?php echo '<div class="ranking pull-right"> <button class="fa fa-sort-numeric-asc btn btn-success btn-contestid" data-contestid="' . $instance['ContestId'] . '"> Ranking</button></div>' ?>
         </div>
         <div id="collapse<?php echo $count ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $count ?>">
           <div class="panel-body">
-<!--              <div class="well well-sm">Eligibility:
-                <?php
-                // echo($instance['freshmanEligible'])? "Fr " : "";
-                // echo($instance['sophmoreEligible'])? "So " : "";
-                // echo($instance['juniorEligible'])? "Jr " : "";
-                // echo($instance['seniorEligible'])? "Sr " : "";
-                // echo($instance['graduateEligible'])? "Grd " : "";
-                ?>
-             </div> -->
              <div class="table-responsive">
               <table class="table table-hover table-condensed">
                 <thead>
@@ -307,20 +262,12 @@ if (!$resultsInd) {
                 <tbody>
 <?php
 $sqlIndEntry = <<<SQL
-   -- SELECT DISTINCT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
-   --    FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
-   -- LEFT OUTER JOIN tbl_evaluations ON (vwcl.`EntryId`= `tbl_evaluations`.`entry_id` AND `tbl_evaluations`.evaluator = '$login_name')
-   --  WHERE ContestInstance = {$instance['ContestId']} AND manuscriptType IN (
-   --    SELECT DISTINCT name
-   --    FROM `lk_category`
-   --    JOIN `tbl_nationalcontestjudge` ON (`tbl_nationalcontestjudge`.`categoryID` = `lk_category`.`id`)
-   --    WHERE uniqname = '$login_name') AND vwcl.status = 0 AND fwdToNational = 1
-   --    ORDER BY vwcl.EntryId
-            SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,tbl_evaluations.`evaluator`,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
+      SELECT vwcl.EntryId, vwcl.`title`,vwcl.`document`,vwcl.`status`,vwcl.`fwdToNational`,vwcl.`uniqname`,vwcl.`classLevel`,vwcl.`firstname`,vwcl.`lastname`,vwcl.`penName`,vwcl.`manuscriptType`,vwcl.contestName,vwcl.`datesubmitted`,vwcl.`date_closed`,vwcl.`ContestInstance`,tbl_evaluations.`id`,CASE WHEN tbl_evaluations.`evaluator`= '$login_name' THEN 1 ELSE 0 END AS evaluator,tbl_evaluations.`rating`,tbl_evaluations.`created`,tbl_evaluations.`comment`,tbl_evaluations.`entry_id`
       FROM `vw_entrydetail_with_classlevel_currated` AS vwcl
       JOIN(
        SELECT MAX(id) max_id, `entry_id`
        FROM `tbl_evaluations`
+
        GROUP BY `entry_id`
       ) rate_max ON (rate_max.`entry_id` = vwcl.`EntryId`)
       JOIN tbl_evaluations ON (tbl_evaluations.id = rate_max.max_id)
@@ -336,10 +283,10 @@ if (!$resultsInd) {
     echo "<tr><td>There are no applicants available</td></tr>";
 } else {
     while ($entry = $resultsInd->fetch_assoc()) {
-      $disable = ""; //($entry["rating"] && $entry['evaluator'] == $login_name)? "disabled" : "";
-      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' . $disable .
+      $rating = ($entry['evaluator'] == 0 )? 0 : $entry['rating'];
+      echo '<tr><td><button class="btn btn-sm btn-info btn-eval fa fa-star ' .
       '" data-entryid="' . $entry['EntryId'] . '"></button></td><td>' . $entry['title'] .
-      '</td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
+      '</td><td><img src="img/' . $rating . 'star.png"></td><td><a href="contestfiles/' . $entry['document'] . '" target="_blank"><span class="fa fa-book fa-lg"></span></a></td><td>' .
       $entry['penName'] . '</td><td>' . $entry['manuscriptType'] . '</td><td>' . date_format(date_create($entry['datesubmitted']),"F jS Y \a\\t g:ia") .
       '</td><td><small>' . $entry['EntryId'] . '</small></td></tr>';
     }

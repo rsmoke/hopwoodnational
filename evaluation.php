@@ -16,7 +16,7 @@ if (isset($_POST["evaluate"])) {
       if ($rating == "" ){
         non_db_error("User: " . $login_name . " -evaluation submission error- User did not select rating");
         exit($user_err_message);
-      } 
+      }
       // else if(strlen($evalComment) <= 0){
       //   non_db_error("User: " . $login_name . " -evaluation submission error- User did enter a comment");
       //   exit($user_err_message);
@@ -77,7 +77,7 @@ SQL;
 <head>
   <meta charset="utf-8">
 
-  <title>LSA-<?php echo "$contestTitle";?> Writing Contests</title>
+  <title>LSA- English Writing Contests</title>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -127,7 +127,7 @@ SQL;
   <div class="row clearfix">
     <div class="col-md-12">
         <div>
-            <h1>Entry Rating</h1>
+            <h1>Evaluation</h1>
               <a class="btn btn-xs btn-warning fa fa-info-circle" href="http://lsa.umich.edu/hopwood/contests-prizes.html" target="_blank"> Contest Rules</a>
         </div>
 
@@ -143,13 +143,29 @@ SQL;
             echo "</div>";
         }
         echo "<hr>";
-
+        $sqlComment = <<<SQL
+          SELECT t1.comment
+          FROM tbl_evaluations t1
+          WHERE t1.created = (SELECT MAX(t2.created)
+                           FROM tbl_evaluations t2
+                           WHERE t2.evaluator = '$login_name' AND entry_id = $entryid)
+SQL;
+$currentComment = "";
+    if (!$resultComment = $db->query($sqlComment)) {
+        db_fatal_error($db->error, "data select issue", $sqlComment);
+        exit($user_err_message);
+    }
+    if ($resultComment->num_rows > 0) {
+      while($item = $resultComment->fetch_assoc()) {
+        $currentComment = $item["comment"] ;
+      }
+    }
 ?>
         <form class="validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
          <input type="hidden" name="evaluator" value="<?php echo  $login_name; ?>">
          <input type="hidden" name="entryid" value="<?php echo  $entryid; ?>">
          <div >
-         <span class="bg-danger">A <strong>Rating</strong> is required.</span>
+         <span class="bg-danger">An <strong>evaluation</strong> is required.</span><em> 5 stars being the highest or best.</em>
          </div>
             <div class="star-rating">
               <fieldset>
@@ -161,8 +177,8 @@ SQL;
               </fieldset>
             </div>
           <div class="form-group">
-            <label for="evalComments">Comments</label>
-            <textarea class="form-control" id="evalComments" name="evalComments" ></textarea>
+            <label for="evalComments">Your Comments</label>
+            <textarea class="form-control" id="evalComments" name="evalComments" ><?php echo  $currentComment; ?></textarea>
           </div>
           <input type="submit" class="btn btn-success" name="evaluate" value="Submit" />
         </form>
