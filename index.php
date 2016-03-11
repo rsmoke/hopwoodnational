@@ -31,7 +31,7 @@ if ($resJudge->num_rows > 0) {
 <head>
   <meta charset="utf-8">
 
-  <title>LSA-<?php echo "$contestTitle";?> Writing Contests</title>
+  <title>LSA-English Writing Contests</title>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -93,34 +93,25 @@ if ($resJudge->num_rows > 0) {
   <h1>Judging Instructions</h1>
   <p class="bg-warning">Please read and understand the instructions below before submitting any evaluations.</p>
   <p>
-    There are two stages to the evaluation process.
-    <ol>
-      <li>The first stage is reading the entries and giving them a rating from 1 to 5 stars. You are also
-      able to write a comment about the entry and save it with the rating. <span style="color:red">This is
-      a comment for your use only, to help you distinguish between manuscripts -- the contestant will not
-      see it.</span> You need to provide a rating for all entries in the contest area you have been
-      assigned. <u>Only rated entries will move forward to the ranking stage</u> so you will want to give
-      ratings to all the entries in a particular contest before moving to the ranking stage. <br>The rating
-      stage can be accessed by selecting
-      <a id="ratingsample" class="btn btn-primary btn-xs disabled fa fa-star"> Rating</a> below.
-      Once you press submit your rating is final.</li>
-      <li>The second stage of the judging process is ranking the entries that you rated in the previous step.
-      You will see a list of all the entries for a given contest sorted by your top rated down to the lowest
-      rated entry. You will give a ranking with the best ranked as 1. You will need to leave a comment of
-      several paragraphs for each manuscript in the ranking section. The contestants will see these comments
-      in their entirety. You will not be able to tie contestants in a particular area.<br> The ranking stage
-      can be accessed by selecting the  <a id="rankingsample" class="btn btn-success btn-xs disabled fa fa-sort-numeric-asc">
-      Ranking</a> button at the top of the entry rating list for each contest. Once you press submit your
-      ranking is final.</li>
-    </ol>
-    
+    There is only one stage to the evaluation process.
+    <ul>
+      <li>You will be reading the entries and giving them an evaluation of 1 to 5 stars with 5 stars being the best or highest.</li>
+      <li>You need to provide an evaluation for all entries in the contest area you have been
+      assigned.</li>
+      <li>You will want to leave a comment in the comments section of the evalution page for each manuscript. <strong>Note: The contestants will see these comments in their entirety.</strong>
+      <li>There should only be one entry that earns a 5 star evaluation in a particular area.</li>
+      <li>You are able to edit your evaluation on any particular entry up to the deadline for judging which is April 3, 2016.</li>
+      <li>The evaluation process can be accessed by selecting
+      <a id="ratingsample" class="btn btn-primary btn-xs disabled fa fa-star"> Evaluation</a> below</li>
+    </ul>
+
       <div class="btn-group" role="group" aria-label="button group">
-        <a class="btn btn-primary fa fa-star" href="rating.php" role="button"> Rating</a>
+        <a class="btn btn-primary fa fa-star" href="rating.php" role="button"> Evaluation</a>
       </div>
       <div class="btn-group" role="group" aria-label="button group">
         <a class="btn btn-warning fa fa-info-circle" href="http://lsa.umich.edu/hopwood/contests-prizes.html" role="button" target="_blank"> Contest Rules</a>
       </div>
-    
+
   </p>
   <p>
     The following is a list of the icons that you will see throughout the application
