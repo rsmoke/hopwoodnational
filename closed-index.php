@@ -7,7 +7,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestNation
 <head>
   <meta charset="utf-8">
 
-  <title>LSA-<?php echo "$contestTitle";?> Writing Contests Opens Soon!</title>
+  <title>LSA-<?php echo "$contestTitle";?> Writing Contests</title>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,50 +16,53 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestNation
   <meta name="author" content="LSA-MIS_rsmoke">
   <link rel="icon" href="img/favicon.ico">
   <style>
-    html { 
-    background: url(img/evaluateImage.jpg) no-repeat center center fixed; 
+    html {
+    background: url(img/evaluateImage.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/evaluateImage.jpg', sizingMethod='scale');
-    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/HopwoodArt.jpg', sizingMethod='scale')";
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/evaluateImage.jpg', sizingMethod='scale')";
   }
   .text-center {
       color: black;
       font-weight: bold;
       text-align: center;
   }
-  footer {
+  #headerBlock {
+      position: fixed;
+      width: 100%;
+      background-color: white;
+  }
+
+   footer {
+    font-size: .8rem;
       position: fixed;
       bottom: 10px;
       width: 100%;
-  }
-  a {
-    background-color: white;
+      background-color: white;
   }
   </style>
 </head>
 
 <body>
 
-  <div>
+  <div id="headerBlock">
     <h1 class="text-center">The Judging section of the Hopwood writing contests is currently not available.<br>Please
     check back.</h1>
   </div>
 <footer>
   <div class="text-center" >
     <address>
-      <h3>Department of <?php echo $deptLngName;?></h3>
-      <a href="mailto:<?php echo strtolower($addressEmail);?>"><?php echo strtolower($addressEmail);?></a>
+      <a href="mailto:<?php echo strtolower($addressEmail);?>" alt="<?php echo strtolower($addressEmail);?>">Department of <?php echo $deptLngName;?></a>
       <br><?php echo $addressBldg;?>, <?php echo $address2;?>
       <br><?php echo $addressStreet;?>
       <br>Ann Arbor, MI
       <br><?php echo $addressZip;?>
-      <br>P: <?php echo $addressPhone;?>
-      <br>F: <?php echo $addressFax;?>
+      <br><?php echo $addressPhone;?>
     </address>
-      <img class="img" src="img/lsa.png" alt="LSA at the University of Michigan">
+      <img class="img" src="img/michigan.png" alt="LSA at the University of Michigan">
   </div>
 
   <div class="text-center">
