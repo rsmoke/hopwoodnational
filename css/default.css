@@ -2,53 +2,18 @@
   fieldset { display: table-cell; }
 }
 
-.star-rating {
-  font-family: 'FontAwesome';
-  margin: 2px auto;
-}
-.star-rating > fieldset {
-  border: none;
-  display: inline-block;
-}
-.star-rating > fieldset:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-  clip: rect(0, 0, 0, 0);
-}
-.star-rating > fieldset:not(:checked) > label {
-  float: right;
-  width: 1em;
-  padding: 0 .05em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 150%;
-  color: #16a085;
-}
-.star-rating > fieldset:not(:checked) > label:before {
-  content: '\f006  ';
-}
-.star-rating > fieldset:not(:checked) > label:hover,
-.star-rating > fieldset:not(:checked) > label:hover ~ label {
-  color: #1abc9c;
-  text-shadow: 0 0 3px #1abc9c;
-}
-.star-rating > fieldset:not(:checked) > label:hover:before,
-.star-rating > fieldset:not(:checked) > label:hover ~ label:before {
-  content: '\f005  ';
-}
-.star-rating > fieldset > input:checked ~ label:before {
-  content: '\f005  ';
-}
-.star-rating > fieldset > label:active {
-  position: relative;
-  top: 2px;
-}
-
-body { 
+body {
 	padding-top: 70px;
 }
+.anchor {
+  padding-top: 70px;
+  margin-top: -70px;
+}
 
+#mainContainer {
+  min-height: 800px;
+  min-width: 600px;
+}
 .notes {
 	padding: 0px 20px;
 	color: #888;
@@ -72,25 +37,31 @@ li {
 }
 
 footer {
+/*  position: fixed;*/
+  bottom: 0px;
+  width: 100%;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: .6em; 
+	font-size: .6em;
 	color: #5e8bac;
 	line-height:12px;
-	background-color: #ddd;	
+	background-color: #ddd;
 	padding-top: .3em;
+  margin: auto;
+  left: 0;
+  right: 0;
 }
 
 footer a img {
 	border: 0px;
 	}
-	
+
 footer a {
-	color: #5e8bac; 
+	color: #5e8bac;
 	text-decoration: none;
 	}
 
 footer a:hover {
-	background-color: transparent; 
+	background-color: transparent;
 	text-decoration: underline;
 }
 
@@ -128,4 +99,14 @@ select {
 
 .radio-inline {
 	padding:2rem;
+}
+\
+.comment_cell {
+  min-width: 250px;
+}
+
+.commentBlock{
+  height: 50px;
+  max-width: 350px;
+  overflow-y:auto;
 }

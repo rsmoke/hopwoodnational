@@ -1,7 +1,14 @@
 $( document ).ready(function(){
+
+  var host = window.location.hostname;
+  if (host === "csgrsmoke.lsait.lsa.umich.edu"){
+    $('body').prepend("<div class='bg-danger text-center'>THIS IS A DEVELOPMENT ENVIRONMENT -- THIS IS A DEVELOPMENT ENVIRONMENT -- THIS IS A DEVELOPMENT ENVIRONMENT -- THIS IS A DEVELOPMENT ENVIRONMENT </div>");
+  }
+
   $('#contest').on('click', '.btn-eval', function (e){
     var entryid = $(this).data('entryid');
-    document.location = 'evaluation.php?evid=' + entryid;
+    var panelid = $(this).data('panelid');
+    document.location = 'evaluation.php?evid=' + entryid + '&panel=' + panelid;
   });
 
   $('#contest').on('click', '.btn-contestid', function (e){
@@ -9,42 +16,9 @@ $( document ).ready(function(){
     document.location = 'ranking.php?ctst=' + contestid;
   });
 
-
+  var current_page = window.location.pathname.split("/")
+  if (current_page[current_page.length-1] == 'evallist.php'){
+    $('#collapse'+ window.location.hash.substring(1,2)).addClass('in');
+  }
 });
 
-$(function(){
-  $('select[id^=rank_]').change(function()
-  {
-      // List of ids that are selected in all select elements
-      var selected = new Array();
-
-      // Get a list of the ids that are selected
-      $('[id^=rank_] option:selected').each(function()
-      {
-          selected.push($(this).val());
-      });
-
-      // Walk through every select option and enable if not 
-      // in the list and not already selected
-      $('[id^=rank_] option').each(function()
-      {
-          if (!$(this).is(':selected') && $(this).val() != '')
-          {
-              var shouldDisable = false;
-              for (var i = 0; i < selected.length; i++)
-              {
-                  if (selected[i] == $(this).val())
-                      shouldDisable = true;
-              }
-
-              $(this).css('text-decoration', '');
-              $(this).removeAttr('disabled', 'disabled');
-              if (shouldDisable)
-              {
-                  $(this).css('text-decoration', 'line-through');
-                  $(this).attr('disabled', 'disabled');
-              }
-          }
-      });
-  });
-});
