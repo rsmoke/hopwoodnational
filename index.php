@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestJudging.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestNational.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php';
 if (session_status() == PHP_SESSION_NONE) {
 session_start();
@@ -44,7 +44,7 @@ if ($isJudge) {
             Toggle navigation</span><span class="icon-bar"></span><span
             class="icon-bar"></span><span class="icon-bar"></span></button>
             <a class="navbar-brand" href="index.php"><?php echo "$contestTitle"; ?>
-              <span style="color:#00FF80"> - Judging</span></a>
+              <span style="color:#00FF80"> - National Judging</span></a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">

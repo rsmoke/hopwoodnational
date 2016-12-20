@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestJudging.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestNational.php');
 require_once($_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php');
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -47,7 +47,7 @@ if ($isJudge){
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
           <div class="container">
           <div class="navbar-header">
-             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="index.php"><?php echo "$contestTitle";?><span style="color:#00FF80"> - Judging</span></a>
+             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="index.php"><?php echo "$contestTitle";?><span style="color:#00FF80"> - National Judging</span></a>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -104,11 +104,11 @@ SELECT
         `lk_contests`.`juniorEligible`,
         `lk_contests`.`seniorEligible`,
         `lk_contests`.`graduateEligible`,
-        `tbl_contestjudge`.`uniqname`
+        `tbl_nationalcontestjudge`.`uniqname`
     FROM tbl_contest
     LEFT OUTER JOIN `lk_contests` ON ((`tbl_contest`.`contestsID` = `lk_contests`.`id`))
-    LEFT OUTER JOIN `tbl_contestjudge` ON (`tbl_contest`.`contestsID` = `tbl_contestjudge`.`contestsID`)
-    WHERE `tbl_contest`.`judgingOpen` = 1 AND `tbl_contestjudge`.`uniqname` = '$login_name'
+    LEFT OUTER JOIN `tbl_nationalcontestjudge` ON (`tbl_contest`.`contestsID` = `tbl_nationalcontestjudge`.`contestsID`)
+    WHERE `tbl_contest`.`judgingOpen` = 1 AND `tbl_nationalcontestjudge`.`uniqname` = '$login_name'
     ORDER BY `tbl_contest`.`date_closed`,`lk_contests`.`name`
 SQL;
 
@@ -145,9 +145,9 @@ if (!$results) {
 $sqlIndEntry = <<<SQL
   SELECT evaluation.id AS evalID, EntryId, title, document, status, uniqname, classLevel, firstname, lastname, umid, penName, manuscriptType, contestName, datesubmitted, date_open, date_closed, evaluation.evaluator, evaluation.rating, evaluation.contestantcomment, evaluation.committeecomment
   FROM vw_entrydetail_with_classlevel_currated AS entry
-  LEFT OUTER JOIN vw_current_evaluations AS evaluation ON (entry.`EntryId`= evaluation.entry_id AND evaluation.evaluator = '$login_name')
+  LEFT OUTER JOIN vw_current_national_evaluations AS evaluation ON (entry.`EntryId`= evaluation.entry_id AND evaluation.evaluator = '$login_name')
   WHERE   entry.status = 0
-      AND entry.ContestInstance = {$instance['ContestId']}
+      AND entry.ContestInstance = {$instance['ContestId']} AND entry.fwdToNational = 1
   ORDER BY -evaluation.rating DESC, document
 SQL;
 

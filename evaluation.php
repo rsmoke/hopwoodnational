@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestJudging.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestNational.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -88,7 +88,7 @@ SQL;
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="index.php"><?php echo "$contestTitle"; ?><span style="color:#00FF80"> - Judging</span></a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="index.php"><?php echo "$contestTitle"; ?><span style="color:#00FF80"> - National Judging</span></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
@@ -146,7 +146,7 @@ while ($row = $result->fetch_assoc()) {
           rating,
           contestantcomment,
           committeecomment
-          FROM vw_current_evaluations AS evaluation
+          FROM vw_current_national_evaluations AS evaluation
           WHERE entry_id = $entryid AND evaluator = '$login_name'
 
 SQL1;
