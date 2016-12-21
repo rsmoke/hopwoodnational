@@ -74,10 +74,11 @@ if ($isJudge) {
             There is only one stage to the evaluation process.
             <ul>
               <li>You will be reading the entries and giving them a value of 1
-              up to 10 with <strong class="text-success bg-success">1</strong> being the best or highest.</li>
-              <li>You need to provide an evaluation for up to 10 entries in
-                the contest area you have been
-              assigned and entries may not be tied in ranking.</li>
+              up to 10 with <strong class="text-success bg-success">1</strong>
+              being the best or highest.</li>
+              <li>You need to provide an evaluation for each entry in the
+              contest area you have been assigned and entries may not be tied
+              in ranking.</li>
               <li>You are required to leave a comment in the <em>Comments to author</em>
                 section of the evaluation page for each evaluated manuscript.
                 <ul><li><strong>Note: The contestant will see these comments in their
