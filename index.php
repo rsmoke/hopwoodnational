@@ -127,14 +127,14 @@ if ($isJudge) {
     <html lang="en">
       <head>
         <meta charset="utf-8">
-        <title><?php echo $siteTitle; ?></title>
-        <meta name="description" content="<?php echo $siteTitle; ?>">
+        <title><?php echo $contestTitle; ?></title>
+        <meta name="description" content="<?php echo $contestTitle; ?>">
         <meta name="rsmoke" content="LSA_MIS">
         <link rel="shortcut icon" href="ico/favicon.ico">
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css">
         <link rel="stylesheet" href="css/bootstrap-formhelpers.min.css" type="text/css">
-        <link rel="stylesheet" type="text/css" href="css/myStyles.css">
+        <link rel="stylesheet" type="text/css" href="css/default.css">
         <!--[if lt IE 9]>
         <script src="http://html5shiv-printshiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
