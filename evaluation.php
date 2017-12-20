@@ -116,7 +116,8 @@ SQL;
         <li>View the entry by clicking the <i class="fa fa-book fa-lg text-info disabled"></i> button.</li>
         <li>Select a ranking and enter any comments in the appropriate fields.
         <ul>
-        <li>If you wish to give a ranking that has already been applied to another entry, you must change the existing ranking first.</li>
+	<li>If you wish to give a ranking that has already been applied to another entry, you must change the existing ranking first.</li>
+	 <li>You can remove an entry's ranking by selecting the [  ] (empty) value that is at the top of the ranking dropdown list (above the "1").</li>
         </ul>
         </li>
         <li>When you have completed the evaluation, click the <i class="btn btn-xs btn-success" disabled>Submit</i> button.</li>
