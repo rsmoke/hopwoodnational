@@ -71,45 +71,42 @@ if ($isJudge) {
           <p class="bg-warning">Please read and understand the instructions
           below before submitting any evaluations.</p>
           <p>
-            There is only one stage to the evaluation process.
+            There are two parts to the evaluation process; for each submission in the queue you will offer (1) a numerical ranking and (2) a written comment.
             <ul>
-              <li>You will be reading the entries and giving them a value of 1
-              up to 10 with <strong class="text-success bg-success">1</strong>
-              being the best or highest.</li>
-              <li>You need to provide an evaluation for each entry in the
-              contest area you have been assigned and entries may not be tied
-              in ranking.</li>
-              <li>You are required to leave a comment in the <em>Comments to author</em>
-                section of the evaluation page for each evaluated manuscript.
-                <ul><li><strong>Note: The contestant will see these comments in their
-                entirety.</strong></li></ul>
-                <li>You may optionally leave a comment in the <em>Comments to committee</em> section of the evaluation page for each evaluated
-                  manuscript. <ul><li><strong>Note: The committee will see these comments
-                  but the contestant will not.</strong></li>
-                  <li>You are able to edit your evaluation on any particular
-                  entry up to the deadline for judging.</li>
-                  <li>To start the evaluation process please select the
-                    <i class="btn btn-primary btn-xs disabled fa fa-sort-numeric-asc"> Evaluate</i> button below</li>
-                  </ul>
-                  <p><a href='mailComment.php'><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Questions or Comments</a></p>
-                  <div class="clearfix text-center">
-                    <div  role="group" aria-label="button group">
-                      <a class="btn btn-lg btn-primary fa fa-sort-numeric-asc" href="evallist.php" role="button"> Evaluate</a>
-                      <a class="btn btn-warning fa fa-info-circle" href="http://lsa.umich.edu/hopwood/contests-prizes.html" role="button" target="_blank"> Contest Rules</a>
-                    </div>
-                  </div>
-                </p>
-                <div class="bg-info">
-                    <ul class="list-inline text-center">
-                      <li>
-                        <address>
-                          <strong>Hannah Ensor</strong><br>
-                            Assistant Director, Hopwood Awards Program<br>
-                          <abbr title="eMail">e:</abbr>
-                          <a href="mailto:ensorh@umich.edu">ensorh@umich.edu</a>
-                        </address>
-                      </li>
-                    </ul>
+              <li>You will be reading the entries and giving them a value of 1 to 10 (or fewer, if you receive fewer entries) with 1 being the best.</li>
+              <li>You need to provide a numerical entry for <strong>each entry</strong> in the contest area you have been assigned and entries may not be tied in ranking.</li>
+              <li>You are required to leave a written comment in the Comments to author section of the evaluation page for each evaluated manuscript.
+                <ul>
+                  <li><strong>Note: The contestant will see these comments in their entirety.</strong> Please ensure that this comment is ready to be received directly by the contestant, with no further editing necessary.</li>
+                  <li>We request that each comment be roughly 1 paragraph to 1 page in length; in terms of genre, it may help to think of this as a brief workshop letter, discussing and describing what works well in the submission and/or what areas could be further explored.</li>
+                </ul>
+              <li>You may optionally leave a comment in the Comments to committee section of the evaluation page for each evaluated manuscript.
+                <ul>
+                  <li><strong>Note: The committee will see these comments but the contestant will not.</strong></li>
+                </ul>
+              <li>There is no button to signify you're finished evaluating a contest when your individual rankings and comments are complete. Rankings and comments are recorded as you enter them.</li>
+              <li>You are able to edit your evaluation on any particular entry up to the deadline for judging. If you are finished judging before the deadline, please email Hannah to notify her <a href="mailto:ensorh@umich.edu">ensorh@umich.edu</a>.</li>
+              <li>To start the evaluation process please select the <i class="btn btn-primary btn-xs disabled fa fa-sort-numeric-asc"> Evaluate</i> button below</li>
+            </ul>
+            <p><a href='mailComment.php'><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Questions or Comments</a></p>
+            <div class="clearfix text-center">
+              <div  role="group" aria-label="button group">
+                <a class="btn btn-lg btn-primary fa fa-sort-numeric-asc" href="evallist.php" role="button"> Evaluate</a>
+                <a class="btn btn-warning fa fa-info-circle" href="http://lsa.umich.edu/hopwood/contests-prizes.html" role="button" target="_blank"> Contest Rules</a>
+              </div>
+            </div>
+          </p>
+          <div class="bg-info">
+              <ul class="list-inline text-center">
+                <li>
+                  <address>
+                    <strong>Hannah Ensor</strong><br>
+                      Assistant Director, Hopwood Awards Program<br>
+                    <abbr title="eMail">e:</abbr>
+                    <a href="mailto:ensorh@umich.edu">ensorh@umich.edu</a>
+                  </address>
+                </li>
+              </ul>
           </div>
         </div>
         <?php include "footer.php";?>
