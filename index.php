@@ -103,10 +103,10 @@ if ($isJudge) {
                     <ul class="list-inline text-center">
                       <li>
                         <address>
-                          <strong>Andrea Beauchamp</strong><br>
+                          <strong>Hannah Ensor</strong><br>
                             Assistant Director, Hopwood Awards Program<br>
                           <abbr title="eMail">e:</abbr>
-                          <a href="mailto:abeauch@umich.edu">abeauch@umich.edu</a>
+                          <a href="mailto:ensorh@umich.edu">ensorh@umich.edu</a>
                         </address>
                       </li>
                     </ul>
