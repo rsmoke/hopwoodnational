@@ -68,13 +68,14 @@ if ($isJudge) {
         <div id="mainContainer" class="container"><!-- container of all things -->
         <div class="page-header">
           <h1>Judging Instructions</h1>
+          <h4>Your final results (ranking + letters) will be due <u>March 26, 2019 at noon</u>. Your payment will be issued promptly upon receiving your results.</h4>
           <p class="bg-warning">Please read and understand the instructions
           below before submitting any evaluations.</p>
           <p>
             There are two parts to the evaluation process; for each submission in the queue you will offer (1) a numerical ranking and (2) a written comment.
             <ul>
-              <li>You will be reading the entries and giving them a value of 1 to 10 (or fewer, if you receive fewer entries) with 1 being the best.</li>
-              <li>You need to provide a numerical entry for <strong>each entry</strong> in the contest area you have been assigned and entries may not be tied in ranking.</li>
+              <li>You will be reading the entries and giving them a value of 1 to 10 (or fewer, if you receive fewer entries) with <strong>1</strong> being the best.</li>
+              <li>You need to provide a numerical ranking for <strong>each entry</strong> in the contest area you have been assigned and entries may not be tied in ranking.</li>
               <li>You are required to leave a written comment in the Comments to author section of the evaluation page for each evaluated manuscript.
                 <ul>
                   <li><strong>Note: The contestant will see these comments in their entirety.</strong> Please ensure that this comment is ready to be received directly by the contestant, with no further editing necessary.</li>
