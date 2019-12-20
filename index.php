@@ -85,8 +85,8 @@ if ($isJudge) {
                 <ul>
                   <li><strong>Note: The committee will see these comments but the contestant will not.</strong></li>
                 </ul>
-              <li>There is no button to signify you're finished evaluating a contest when your individual rankings and comments are complete. Rankings and comments are recorded as you enter them.</li>
-              <li>You are able to edit your evaluation on any particular entry up to the deadline for judging. If you are finished judging before the deadline, please email Hannah to notify her <a href="mailto:ensorh@umich.edu">ensorh@umich.edu</a>.</li>
+	      <li>There is no button to signify you're finished evaluating a contest when your individual rankings and comments are complete. Rankings and comments are recorded as you enter them.</li>
+              <li>You are able to edit your evaluation on any particular entry up to the deadline for judging. If you are finished judging before the deadline, please email the Hopwood Awards Program at <a href="mailto:hopwoodContestAdmins@umich.edu">hopwoodContestAdmins@umich.edu</a> to notify the contest administrator.</li>
               <li>To start the evaluation process please select the <i class="btn btn-primary btn-xs disabled fa fa-sort-numeric-asc"> Evaluate</i> button below</li>
             </ul>
             <p><a href='mailComment.php'><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Questions or Comments</a></p>
@@ -99,12 +99,11 @@ if ($isJudge) {
           </p>
           <div class="bg-info">
               <ul class="list-inline text-center">
-                <li>
+		<li>
                   <address>
-                    <strong>Hannah Ensor</strong><br>
-                      Assistant Director, Hopwood Awards Program<br>
+                    <strong>Hopwood Awards Program</strong><br>
                     <abbr title="eMail">e:</abbr>
-                    <a href="mailto:ensorh@umich.edu">ensorh@umich.edu</a>
+                    <a href="mailto:hopwoodContestAdmins@umich.edu">hopwoodContestAdmins@umich.edu</a>
                   </address>
                 </li>
               </ul>
