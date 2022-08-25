@@ -1,3 +1,4 @@
+<?php
 require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/configEnglishContestNational.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/../Support/basicLib.php';
 if (session_status() == PHP_SESSION_NONE) {
@@ -7,8 +8,8 @@ if ($isJudge) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+  <head>
+    <meta charset="utf-8">
     <title>LSA-<?php echo "$contestTitle"; ?> Writing Contests</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +68,7 @@ if ($isJudge) {
         <div id="mainContainer" class="container"><!-- container of all things -->
         <div class="page-header">
           <h1>Judging Instructions</h1>
-          <h4>Your final results (ranking + letters) will be due <u>March 9, 2022 at noon</u>. Your payment will be issued promptly upon receiving your results.</h4>
+          <h4>Your final results (ranking + letters) will be due <u>March 26, 2019 at noon</u>. Your payment will be issued promptly upon receiving your results.</h4>
           <p class="bg-warning">Please read and understand the instructions
           below before submitting any evaluations.</p>
           <p>
@@ -84,8 +85,8 @@ if ($isJudge) {
                 <ul>
                   <li><strong>Note: The committee will see these comments but the contestant will not.</strong></li>
                 </ul>
-              <li>There is no button to signify you're finished evaluating a contest when your individual rankings and comments are complete. Rankings and comments are recorded as you enter them.</li>
-              <li>You are able to edit your evaluation on any particular entry up to the deadline for judging. If you are finished judging before the deadline, please email the Hopwood Awards Program at  <a href="mailto:hopwoodContestAdmins@umich.edu">hopwoodContestAdmins@umich.edu</a> to notify the contest administrator.</li>
+	      <li>There is no button to signify you're finished evaluating a contest when your individual rankings and comments are complete. Rankings and comments are recorded as you enter them.</li>
+              <li>You are able to edit your evaluation on any particular entry up to the deadline for judging. If you are finished judging before the deadline, please email the Hopwood Awards Program at <a href="mailto:hopwoodContestAdmins@umich.edu">hopwoodContestAdmins@umich.edu</a> to notify the contest administrator.</li>
               <li>To start the evaluation process please select the <i class="btn btn-primary btn-xs disabled fa fa-sort-numeric-asc"> Evaluate</i> button below</li>
             </ul>
             <p><a href='mailComment.php'><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Questions or Comments</a></p>
@@ -98,7 +99,7 @@ if ($isJudge) {
           </p>
           <div class="bg-info">
               <ul class="list-inline text-center">
-                <li>
+		<li>
                   <address>
                     <strong>Hopwood Awards Program</strong><br>
                     <abbr title="eMail">e:</abbr>
@@ -122,7 +123,7 @@ if ($isJudge) {
     <!doctype html>
     <html lang="en">
       <head>
-
+        <meta charset="utf-8">
         <title><?php echo $contestTitle; ?></title>
         <meta name="description" content="<?php echo $contestTitle; ?>">
         <meta name="rsmoke" content="LSA_MIS">
